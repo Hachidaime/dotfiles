@@ -1,0 +1,53 @@
+set icons true
+set drawbox
+
+# set previewer ctpv
+# set cleaner ctpvclear
+# &ctpv -s $id
+# &ctpvquit $id
+
+# set previewer chafa
+# &chafa -f kitty $id
+
+# set previewer ~/.config/lf/preview
+# set cleaner ~/.config/lf/cleaner
+
+set previewer ~/.config/lf/lf_kitty_preview
+set cleaner ~/.config/lf/lf_kitty_clean
+
+# Custom Functions
+cmd mkdir %mkdir "$@"
+cmd mkfile %touch "$@"
+cmd nvim ${{
+  nvim
+}}
+
+# define a custom 'delete' command
+cmd delete ${{
+    set -f
+    printf "$fx\n"
+    printf "delete?[y/n]"
+    read ans
+    [ $ans = "y" ] && rm -rf $fx
+}}
+
+# Basic Functions
+map a push :mkdir<space>
+map D delete
+map <enter> shell
+map V nvim
+
+# Movement
+map gd cd ~/Documents
+map gD cd ~/Downloads
+map gm cd ~/Music
+map gp cd ~/Pictures
+map gv cd ~/Videos
+map gs cd ~/source
+map gc cd ~/.config
+map gr cd ~/.config/rofi
+map gz cd ~/.config/nvim
+map gx cd ~/.config/lf
+map gl cd /run/media/cold/datab/Library
+map ga cd /run/media/cold/dataa
+map gw cd /run/media/cold/dataa/Workplace

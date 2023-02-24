@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+file=$1
+w=$2
+h=$3
+x=$4
+y=$5
+
+if [[ "$(file -Lb --mime-type "$file")" =~ ^image ]]; then
+	kitty +icat --silent --transfer-mode file --place "${w}x${h}@${x}x${y}" "$file"
+	exit 1
+fi
+
+MIME="$(file -Lb --mime-type "$file")"
+# echo "$MIME"
+
+case "$MIME" in
+# .pdf
+*application/pdf*)
+	pdftotext "$file" -
+	;;
+# .7z
+# *application/x-7z-compressed*)
+#     7z l "$1"
+#     ;;
+# .tar .tar.Z
+# *application/x-tar*)
+#     tar -tvf "$1"
+#     ;;
+# .tar.*
+# *application/x-compressed-tar*|*application/x-*-compressed-tar*)
+#     tar -tvf "$1"
+#     ;;
+# .rar
+*application/x-rar*)
+	unrar l "$1"
+	exit 1
+	;;
+# .zip
+*application/zip*)
+	unzip -l "$1"
+	exit 1
+	;;
+# any plain text file that doesn't have a specific handler
+*text/plain*)
+	# return false to always repaint, in case terminal size changes
+	bat --force-colorization --paging=never --style=changes \
+		--theme="Dracula" \
+		--terminal-width $(($2 - 5)) --italic-text="always" "$1" && false
+	exit 1
+	;;
+	# *) ;;
+	# echo "unknown format"
+	# ;;
+esac
+
+pistol "$file"
