@@ -1,0 +1,5 @@
+-- require('lualine').setup()
+-- require('lualine-config.eviline-solarized-light')
+-- require('lualine-config.eviline-tokyonight')
+require("lualine-config.eviline")
+-- require('lualine-config.global')
